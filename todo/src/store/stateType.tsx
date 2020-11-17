@@ -3,16 +3,16 @@ import reducers from './reducer';
 export interface TODO {
   list: {
     id: number;
-    content: string;
+    value: string;
     status: number;
   }[];
   finished: number;
-  input_value: string;
+  content: string;
 }
 
 export interface TODOITEM {
   id: number;
-  content: string;
+  value: string;
   status: number;
 }
 //TODOITEM TODO

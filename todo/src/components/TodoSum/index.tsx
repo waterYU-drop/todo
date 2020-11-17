@@ -10,12 +10,7 @@ export default class TodoSum extends React.Component<any, TODO> {
     super(props);
     this.state = store.getState();
   }
-  componentDidMount() {
-    store.subscribe(this.handleInputChange);
-  }
-  handleInputChange = () => {
-    this.setState(store.getState());
-  };
+
   async finishItem(item: TODOITEM) {
     let result;
     const obj = {
@@ -70,31 +65,31 @@ export default class TodoSum extends React.Component<any, TODO> {
             },
             styles.box,
           ]}>
-          {item.content}
+          {item.value}
         </Text>
         <Text onPress={() => this.deleteItem(item)}>X</Text>
       </View>
     );
   }
+  componentDidMount() {
+    store.subscribe(this.handleInputChange);
+  }
+  handleInputChange = () => {
+    this.setState(store.getState());
+  };
 }
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row-reverse',
-    height: 20,
-    marginTop: 10,
   },
   box: {
     position: 'relative',
     paddingRight: 10,
-    width: 330,
-    marginLeft: 20,
   },
   checkBox: {
     width: 20,
     height: 20,
-    borderRadius: 300,
-    borderWidth: 2,
     borderColor: '#0066FF',
   },
 });

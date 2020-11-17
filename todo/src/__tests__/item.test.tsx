@@ -23,37 +23,38 @@ import {TODO} from '../store/stateType';
 // })
 
 describe('Enzyme Shallow', () => {
-  it('TodoHeaderShow', () => {
+  it('TodoInputShow', () => {
     let header = shallow(<Header />);
+    const viewProps = header.find('View').children().length;
     // eslint-disable-next-line jest/valid-expect
-    expect(header.find('View').children().length).to.equal(2);
+    expect(viewProps).to.equal(2);
   });
   it('addTodo', () => {
     const defaultState: TODO = {
       list: [
         {
           id: 0,
-          content: 'todo1',
+          value: 'todo1',
           status: 0,
         },
         {
           id: 1,
-          content: 'todo2',
+          value: 'todo2',
           status: 0,
         },
         {
           id: 2,
-          content: 'todo3',
+          value: 'todo3',
           status: 0,
         },
       ],
       finished: 0,
-      input_value: '',
+      content: '',
     };
     let todoHeader = shallow(<Header />);
     const todo = {
       id: 3,
-      content: 'todo4',
+      value: 'todo4',
       status: 0,
     };
     let todoLength = defaultState.list.length;
@@ -63,6 +64,9 @@ describe('Enzyme Shallow', () => {
     let todolist = shallow(
       <View>
         <FlatList
+          // data={defaultState.list}
+          // renderItem={({item}) => <Item item={item} />}
+          // keyExtractor={(item) => item.id.toString()}
           data={defaultState.list}
           renderItem={({item}) => <Item item={item} />}
           keyExtractor={(item) => item.id.toString()}
@@ -71,27 +75,32 @@ describe('Enzyme Shallow', () => {
     );
     //有无显示
     // expect(ul.children()).to.have.lengthOf(todoLength + 1);
+    const viewProps = todolist.find('View').props();
+    const dataLength = viewProps.children().props().data.length;
     // eslint-disable-next-line jest/valid-expect
-    expect(todolist.find('View').props().children.props.data.length).to.equal(
-      todoLength + 1,
-    );
+    expect(dataLength).to.equal(todoLength + 1);
   });
   it('delTodo', () => {
     const defaultState: TODO = {
       list: [
         {
           id: 0,
-          content: 'todo1',
+          value: 'todo1',
           status: 0,
         },
         {
           id: 1,
-          content: 'todo2',
+          value: 'todo2',
+          status: 0,
+        },
+        {
+          id: 2,
+          value: 'todo3',
           status: 0,
         },
       ],
       finished: 0,
-      input_value: '',
+      content: '',
     };
     let item = shallow(<Text>X</Text>);
     // 删除数据
@@ -109,15 +118,16 @@ describe('Enzyme Shallow', () => {
       </View>,
     );
     item.find('Text').simulate('click');
+    const viewProps = view.children();
     // eslint-disable-next-line jest/valid-expect
-    expect(view.children()).to.have.lengthOf(todoLength); //判断点击删除后数据是否不显示
+    expect(viewProps).to.have.lengthOf(todoLength); //判断点击删除后数据是否不显示
   });
   it('changeTodo', () => {
     // 初始数据
     const defaultState: TODO = {
-      list: [{id: 0, content: 'todo1', status: 0}],
+      list: [{id: 0, value: 'todo1', status: 0}],
       finished: 0,
-      input_value: '',
+      content: '',
     };
     let item = shallow(
       <View>
@@ -140,7 +150,7 @@ describe('Enzyme Shallow', () => {
           style={{
             backgroundColor:
               defaultState.list[0].status === 0
-                ? '#fff'
+                ? 'pink'
                 : 'rgba(255, 255, 255, 0.5)',
           }}
         />

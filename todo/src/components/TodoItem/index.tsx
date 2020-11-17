@@ -18,26 +18,21 @@ export default class TodoItem extends React.Component<{}, TODO> {
     }
   }
   addTodo() {
-    let value = this.state.input_value;
+    let value = this.state.content;
     const len = Math.random() * (100 + 1);
     if (value !== '') {
       const obj = {
         id: len,
-        content: value,
+        value: value,
         status: 0,
       };
       this._addTodo(obj);
       this.setState({
-        input_value: '',
+        content: '',
       });
     }
   }
-  componentDidMount() {
-    store.subscribe(this.handleInputChange);
-  }
-  handleInputChange = () => {
-    this.setState(store.getState());
-  };
+
   render() {
     return (
       <View>
@@ -45,10 +40,10 @@ export default class TodoItem extends React.Component<{}, TODO> {
           placeholder="todo"
           onChangeText={(value: any) => {
             this.setState({
-              input_value: value,
+              content: value,
             });
           }}
-          value={this.state.input_value}
+          value={this.state.content}
         />
         <Button
           title="add"
@@ -59,4 +54,10 @@ export default class TodoItem extends React.Component<{}, TODO> {
       </View>
     );
   }
+  componentDidMount() {
+    store.subscribe(this.handleInputChange);
+  }
+  handleInputChange = () => {
+    this.setState(store.getState());
+  };
 }

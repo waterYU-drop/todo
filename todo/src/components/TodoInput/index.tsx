@@ -12,15 +12,6 @@ export default class TodoInput extends React.Component<{}, TODO> {
     super(props);
     this.state = store.getState();
   }
-  UNSAFE_componentWillMount() {
-    this._queryData();
-  }
-  componentDidMount() {
-    store.subscribe(this.handleInputChange);
-  }
-  handleInputChange = () => {
-    this.setState(store.getState());
-  };
   async _queryData() {
     let result;
     result = await reqQueryData();
@@ -42,4 +33,13 @@ export default class TodoInput extends React.Component<{}, TODO> {
       </View>
     );
   }
+  UNSAFE_componentWillMount() {
+    this._queryData();
+  }
+  componentDidMount() {
+    store.subscribe(this.handleInputChange);
+  }
+  handleInputChange = () => {
+    this.setState(store.getState());
+  };
 }

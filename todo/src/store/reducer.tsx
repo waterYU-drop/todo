@@ -4,7 +4,7 @@ import {TODO, TODOITEM} from './stateType';
 const defaultState: TODO = {
   list: [],
   finished: 0,
-  input_value: '',
+  content: '',
 };
 
 // export const getData = "get_data";
